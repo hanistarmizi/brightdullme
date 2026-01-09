@@ -1,0 +1,23 @@
+.sum {
+    font-size: 100px;
+    width: 100%;
+    text-align: center;
+    padding-top: 9px;
+    opacity: 0;
+}
+
+@media (orientation: portrait) {
+    .tray {
+        flex-direction: column;
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    .tray {
+        transform: scale(50%);
+        transform-origin: top left;
+        width: 200%;
+        height: 200%;
+    }
+}

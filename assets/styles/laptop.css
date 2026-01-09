@@ -1,0 +1,137 @@
+.laptop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 680px;
+    min-width: 320px;
+    margin: 0 16px;
+    cursor: pointer;
+}
+
+.laptop-top {
+    height: auto;
+    width: 100%;
+    margin: 0 auto;
+    perspective-origin: 50% 100%;
+    perspective: 2000px;
+}
+
+.laptop__lid {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0 auto;
+    background: linear-gradient(3deg, #c1b8c5 0%, #d6bed6 100%);
+    height: 10px;
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+    border-bottom: none;
+    transform: rotateX(-90deg);
+    transition: all 10ms;
+    z-index: 1;
+    perspective: none;
+}
+
+.laptop--closed .laptop__lid {
+    border-bottom: 1px solid #5b3a5b;
+    transform: rotateX(0);
+    transition: all 250ms;
+    transition-delay: 150ms;
+}
+
+.laptop__screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    min-width: 280px;
+    width: calc(85% - 30px);
+    margin: 0 auto;
+    background-color: white;
+    background-image: linear-gradient(45deg, rgba(245, 165, 236, 0.4) 0%, rgba(255, 206, 247, 0.7) 34%, #fedcf8 47%, #f9def4 63%, #f9def4 100%);
+    border: 15px solid #3c263c;
+    border-radius: 15px 15px 0 0;
+    transform-origin: center bottom;
+    transform: rotateX(0deg);
+    transform-style: preserve-3d;
+    transition: all 250ms ease-out;
+    overflow: hidden;
+}
+
+.laptop__screen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.laptop--closed .laptop__screen {
+    transform: rotateX(-90deg);
+}
+
+.laptop__base {
+    position: relative;
+    background: linear-gradient(3deg, #c1b8c5 0%, #d6bed6 100%);
+    width: 100%;
+    height: 30px;
+    border-radius: 0 0 15px 15px;
+}
+
+.laptop__base::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(50% - 75px);
+    width: 150px;
+    height: 15px;
+    background-color: #7b4d7b;
+    border-radius: 0 0 15px 15px;
+    z-index: 10;
+}
+
+.laptop__base::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -3px;
+    left: 0;
+    width: 95%;
+    margin: 0 auto;
+    height: 0;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    z-index: -1;
+}
+
+.laptop__screen {
+    background-color: white;
+}
+
+.happy-face {
+    position: relative;
+    right: -13px;
+    line-height: 0;
+    color: #5b3a5b;
+    font-size: 150px;
+    font-family: Tahoma, sans-serif;
+    transform: rotate(90deg);
+}
+
+.happy-face__mouth {
+    position: relative;
+    display: inline-block;
+}
+
+.laptop--closed .happy-face__mouth {
+    transform: rotate(180deg);
+    bottom: -35px;
+}
+
+@media screen and (min-width: 600px) {
+    .laptop__screen {
+        height: 350px;
+    }
+}

@@ -815,7 +815,7 @@ body .options .option .label .info .sub {
     }
 }
 
-.doodle {
+.hobby {
     overflow: hidden;
     height: 300px;
     margin-bottom: 20px;
@@ -823,7 +823,7 @@ body .options .option .label .info .sub {
     transition: all 0.5s ease;
 }
 
-.doodle::before {
+.hobby::before {
     content: '';
     position: absolute;
     top: -50%;
@@ -839,35 +839,35 @@ body .options .option .label .info .sub {
     opacity: 0;
 }
 
-.doodle:hover {
+.hobby:hover {
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(254, 203, 0, 0.5);
 }
 
-.doodle:hover::before {
+.hobby:hover::before {
     opacity: 1;
     transform: rotate(-45deg) translateY(100%);
 }
 
-.doodle-1 {
+.hobby-1 {
     background: url('./assets/images/personal-1.webp');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.doodle-2 {
+.hobby-2 {
     background: url('./assets/images/personal-3.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.doodle-3 {
+.hobby-3 {
     background: url('./assets/images/personal-2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.doodle-4 {
+.hobby-4 {
     background: url('./assets/images/personal-4.png');
     background-repeat: no-repeat;
     background-size: cover;
