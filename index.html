@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>brightdullme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet">
+
+    <script src="./assets/scripts/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const section1 = document.getElementById('section-1');
+            const section2 = document.getElementById('section-2');
+            const section3 = document.getElementById('section-3');
+            const section4 = document.getElementById('section-4');
+            const footer = document.getElementById('footer');
+            const hello = document.getElementById('hello');
+            const welcome = document.getElementById('welcome');
+
+            // play animation section 1
+            hello.classList.add('typewriter-animation');
+            // on section 1 animation end
+            section1.addEventListener('animationend', () => {
+                setTimeout(() => {
+                    // play animation section 1
+                    section2.classList.remove('hide');
+                    section2.classList.add('show');
+                    section2.scrollIntoView({ behavior: 'smooth' });
+                    welcome.classList.add('typewriter-animation');
+
+                    // on section 2 animation end
+                    section2.addEventListener('animationend', () => {
+                        setTimeout(() => {
+                            section3.classList.remove('hide');
+                            section4.classList.remove('hide');
+                            footer.classList.remove('hide');
+                            section3.classList.add('show');
+                            section4.classList.add('show');
+                            footer.classList.add('show');
+                            section3.scrollIntoView({ behavior: 'smooth' });
+                        }, 1500);
+                    }, { once: true });
+                }, 1500);
+            }, { once: true });
+
+            $(".option").click(function () {
+                $(".option").removeClass("active");
+                $(this).addClass("active");
+            });
+
+            $("#laptop").hover(function () {
+                $("#laptop").toggleClass("laptop--closed");
+            });
+
+            const rots = [
+                { ry: 0, rx: 0 }, // 1
+                { ry: 90, rx: 0 }, // 2
+                { ry: 180, rx: 0 }, // 3
+                { ry: 270, rx: 0 }, // 4
+                { ry: 0, rx: 90 }, // 5
+                { ry: 0, rx: -90 }  // 6
+            ];
+
+            let val = [1, 1]
+
+            gsap.set(".face", {
+                position: 'absolute',
+                userSelect: 'none',
+                width: '100%',
+                height: '100%',
+                rotateY: (i) => rots[i].ry,
+                rotateX: (i) => rots[i].rx,
+                transformOrigin: "50% 50% -150px",
+                z: 150,
+                background: (i) => 'url(https://assets.codepen.io/721952/dieSprite.svg) 0px -' + String(i * 300) + 'px'
+            });
+
+            let die2 = document.querySelector('.die').cloneNode(true);
+            document.querySelector('.tray').append(die2);
+
+            gsap.set('.die', { attr: { class: (i) => 'die die' + (i + 1) }, width: 300, height: 300, perspective: 999 });
+            gsap.set('.cube', { position: 'absolute', width: 300, height: 300, transformStyle: 'preserve-3d', z: -600 });
+
+            function roll() {
+                val[0] = gsap.utils.random(1, 6, 1)
+                val[1] = gsap.utils.random(1, 6, 1)
+
+                gsap.timeline()
+                    .to('.sum', {
+                        duration: 0.17,
+                        overwrite: true,
+                        opacity: 0,
+                        ease: 'power1.inOut'
+                    }, 0)
+
+                    .fromTo('.cube', {
+                        z: -600
+                    }, {
+                        duration: 0.75,
+                        z: -300,
+                        ease: 'expo',
+                        yoyoEase: 'bounce.out(5)',
+                        repeat: 1
+                    }, 0)
+
+                    .fromTo('.cube', {
+                        rotationX: (i) => i == 0 ? '-=360' : '+=360' //this ensures that even if the new number is the same, it will do some rotation
+                    }, {
+                        duration: 1.5,
+                        ease: 'back',
+                        rotationX: (i) => -rots[val[i] - 1].rx,
+                        rotationY: (i) => -rots[val[i] - 1].ry
+                    }, 0)
+
+                    .set('.sum', {
+                        textContent: String(val[0] + val[1])
+                    }, 0.8)
+
+                    .to('.sum', {
+                        opacity: 1,
+                        ease: 'power3.inOut'
+                    }, 0.8)
+            }
+
+            $("#dice").hover(roll);
+        });
+    </script>
+</head>
+
+<body>
+    <div id="section-1" class="section-1">
+        <div id="hello" class="hello">Hello there!</div>
+    </div>
+    <div id="section-2" class="section-2 hide">
+        <div id="welcome" class="welcome">Welcome to my playground.</div>
+    </div>
+    <div id="section-3" class="section-3 hide">
+        <div style="position: relative;">
+            <h3 class="font-dark mb-5 text-center">I am a huge fan of CSS animations, and this is where I play around
+                &mdash; when I am not working on work.</h3>
+            <div class="portfolio">
+                <div class="card">
+                    <div class="content">
+                        <span>CSS Animations</span>
+                        <span class="category">UX / UI </span>
+                    </div>
+                    <div class="image web">
+                        <div id="laptop" class="laptop laptop--closed">
+                            <div class="laptop-top">
+                                <div class="laptop__lid"></div>
+                                <div class="laptop__screen">
+                                    <div class="happy-face">
+                                        :<span class="happy-face__mouth">)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="laptop__base"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="content">
+                        <span>Web 3D Rendering</span>
+                        <span class="category">3D / Web </span>
+                    </div>
+                    <div class="image eye">
+                        <div class="stage">
+                            <div class="ball">
+                                <span class="shadow"></span>
+                                <span class="iris"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="content">
+                        <span>Untitled Math Dice Game</span>
+                        <span class="category">Game / Education</span>
+                    </div>
+                    <div id="dice" class="image dice">
+                        <div class="tray">
+                            <div class="die">
+                                <div class="cube">
+                                    <div class="face"></div>
+                                    <div class="face"></div>
+                                    <div class="face"></div>
+                                    <div class="face"></div>
+                                    <div class="face"></div>
+                                    <div class="face"></div>
+                                </div>
+                            </div>
+                            <div class="sum">2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="content">
+                        <span>Quran Practice Platform</span>
+                        <span class="category">Web / Education</span>
+                    </div>
+                    <div class="image book">
+                        <div class="container">
+                            <div class="book">
+                                <div class="gap"></div>
+                                <div class="pages">
+                                    <div class="page"></div>
+                                    <div class="page"></div>
+                                    <div class="page"></div>
+                                    <div class="page"></div>
+                                    <div class="page"></div>
+                                    <div class="page"></div>
+                                </div>
+                                <div class="flips">
+                                    <div class="flip flip1">
+                                        <div class="flip flip2">
+                                            <div class="flip flip3">
+                                                <div class="flip flip4">
+                                                    <div class="flip flip5">
+                                                        <div class="flip flip6">
+                                                            <div class="flip flip7"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chevron-container">
+                <div class="chevron"></div>
+                <div class="chevron"></div>
+                <div class="chevron"></div>
+                <span class="chevron-text">Scroll down</span>
+            </div>
+        </div>
+    </div>
+    <div id="section-4" class="section-4 hide">
+        <div>
+            <h3>And when I am not playing with CSS ...</h3>
+            <div class="personal">
+                <div class="row">
+                    <div class="col-4">
+                        <div>
+                            <div class="doodle doodle-1"></div>
+                            <div class="doodle doodle-2"></div>
+                            <div class="doodle doodle-3"></div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="photo">
+                            <div class="caption mb-3">Of me, and my love for sunrise and sunset ...</div>
+                            <div class="options mb-3">
+                                <div class="option active">
+                                    <div class="shadow"></div>
+                                    <div class="label">
+                                        <div class="icon">
+                                            <i class="fas fa-snowflake"></i>
+                                        </div>
+                                        <div class="info">
+                                            <div class="sub">Kedah, Malaysia</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="option">
+                                    <div class="shadow"></div>
+                                    <div class="label">
+                                        <div class="icon">
+                                            <i class="fas fa-walking"></i>
+                                        </div>
+                                        <div class="info">
+                                            <div class="sub">Johor, Malaysia</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="option">
+                                    <div class="shadow"></div>
+                                    <div class="label">
+                                        <div class="icon">
+                                            <i class="fas fa-tree"></i>
+                                        </div>
+                                        <div class="info">
+                                            <div class="sub">Selangor, Malaysia</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="option">
+                                    <div class="shadow"></div>
+                                    <div class="label">
+                                        <div class="icon">
+                                            <i class="fas fa-tint"></i>
+                                        </div>
+                                        <div class="info">
+                                            <div class="sub">Selangor, Malaysia</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="option">
+                                    <div class="shadow"></div>
+                                    <div class="label">
+                                        <div class="icon">
+                                            <i class="fas fa-sun"></i>
+                                        </div>
+                                        <div class="info">
+                                            <div class="sub">Somewhere in Malaysia</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <figure>
+                                <blockquote class="blockquote">
+                                    <p>"And the sun runs its course toward a resting place for it. That is the design of
+                                        the Almighty, the All-Knowing."</p>
+                                </blockquote>
+                                <figcaption class="blockquote-footer">
+                                    Quran, Yaasin 36:38
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="doodle doodle-4" style="margin-top: 20px; height: 325px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer" class="footer hide">
+        <div>
+            <div>
+                Follow your heart and choose one:
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">
+                    <img src="./assets/images/flower-1.png" />
+                </button> | 
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal2">
+                    <img src="./assets/images/flower-2.png" />
+                </button> | 
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal3">
+                    <img src="./assets/images/flower-3.png" />
+                </button>
+            </div>
+            <div class="mt-3">Surprise me and drop a message <a href="#" data-replace="here"><span>here</span></a>.
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3>What belongs to you, but everyone else uses it?</h3>
+                    <small>Hint: You can find the answer somewhere in my playground. Have fun!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3>What can you break just by saying its name?</h3>
+                    <small>Hint: You can find the answer somewhere in my playground. Have fun!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3>What travels around the world but stays at the same corner?</h3>
+                    <small>Hint: You can find the answer somewhere in my playground. Have fun!</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
