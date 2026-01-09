@@ -1784,3 +1784,33 @@ body .options .option .label .info .sub {
     text-align: center;
     padding: 2.5em 0;
 }
+
+.answer-1 {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    z-index: 10;
+    color: #52811b;
+}
+
+.answer-1:hover {
+    color: #fafafa;
+}
+
+.answer-2 {
+    position: relative;
+    color: #fafafa;
+}
+
+.answer-2:hover {
+    color: #fecc00;
+}
+
+.answer-3 {
+    position: absolute;
+    color: #232223;
+}
+
+.answer-3:hover {
+    color: #fecc00;
+}
