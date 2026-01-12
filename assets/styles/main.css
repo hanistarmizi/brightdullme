@@ -24,8 +24,9 @@ body {
 .section-3 {
     background-color: #ffeaa2;
     align-items: unset;
-    padding: 100px 0;
     min-height: 100vh;
+    padding-top: 50px;
+    padding-bottom: 0;
 }
 
 .section-4 {
@@ -40,13 +41,12 @@ body {
 
 .hello,
 .welcome {
-    font-size: 6em;
+    font-size: 5em;
     font-weight: bold;
     width: 80%;
-    border-right: 2px solid rgba(255, 255, 255, .75);
     text-align: center;
-    white-space: nowrap;
     overflow: hidden;
+    letter-spacing: 1px;
 }
 
 .hello {
@@ -57,57 +57,91 @@ body {
     color: #fecc00;
 }
 
-/* Animation */
-.hello.typewriter-animation {
+.hello .type {
+    font-family: monospace;
+    font-size: 50%;
+    color: #0000;
+    background:
+        linear-gradient(-90deg, #fecc00 2px, #0000 0) 10px 0,
+        linear-gradient(#f9faff 0 0) 0 0;
+    background-size: calc(var(--n)*1ch) 200%;
+    -webkit-background-clip: padding-box, text;
+    background-clip: padding-box, text;
+    background-repeat: no-repeat;
+}
+
+.welcome .type {
+    font-family: monospace;
+    font-size: 50%;
+    color: #0000;
+    background:
+        linear-gradient(-90deg, #52811b 2px, #0000 0) 10px 0,
+        linear-gradient(#fecc00 0 0) 0 0;
+    background-size: calc(var(--n)*1ch) 200%;
+    -webkit-background-clip: padding-box, text;
+    background-clip: padding-box, text;
+    background-repeat: no-repeat;
+}
+
+.hello .type.animate,
+.welcome .type.animate {
     animation:
-        typewriter-hello 2s steps(20) 1s 1 normal both,
-        blinkingCursor-hello 500ms steps(50) infinite normal;
+        blinking 300ms steps(1) infinite alternate,
+        text calc(var(--n)*.1s) steps(var(--n)) 1s normal both;
 }
 
-.welcome.typewriter-animation {
-    animation:
-        typewriter-welcome 2s steps(20) 1s 1 normal both,
-        blinkingCursor-welcome 500ms steps(50) infinite normal;
-}
-
-@keyframes typewriter-hello {
+@keyframes text {
     from {
-        width: 0;
-    }
-
-    to {
-        width: 600px;
+        background-size: 0 200%
     }
 }
 
-@keyframes typewriter-welcome {
-    from {
-        width: 0;
-    }
+@keyframes blinking {
 
-    to {
-        width: 80%;
+    50%,
+    100% {
+        background-position: 0 -100%, 0 0
     }
 }
 
-@keyframes blinkingCursor-hello {
-    from {
-        border-right-color: rgba(254, 203, 0, .75);
-    }
-
-    to {
-        border-right-color: transparent;
-    }
+.section-caption {
+    color: #341401;
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 3rem;
 }
 
-@keyframes blinkingCursor-welcome {
-    from {
-        border-right-color: rgba(81, 129, 27, .75);
-    }
+.work {
+    background-image: linear-gradient(to right, #54b3d6, #54b3d6 50%, #000 50%);
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
 
-    to {
-        border-right-color: transparent;
-    }
+.work:before {
+    content: "";
+    background: #54b3d6;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.work:hover {
+    background-position: 0;
+}
+
+.work:hover::before {
+    width: 100%;
 }
 
 .portfolio {
@@ -147,13 +181,12 @@ body {
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
-    min-height: 100px;
-    background: #111;
+    background: rgba(0, 0, 0, 0.75);
 }
 
 .portfolio .card .image {
     z-index: 1;
-    height: 100%;
+    height: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -175,7 +208,7 @@ body {
     transform: scale(1);
 }
 
-.portfolio .card .content span:first-child {
+.portfolio .card .content span {
     text-transform: uppercase;
     margin-bottom: 10px;
     font-weight: 700;
@@ -183,13 +216,6 @@ body {
     text-align: center;
     color: #fff;
     font-size: 16px;
-}
-
-.portfolio .card .content span:last-child {
-    font-size: 14px;
-    color: #18cfab;
-    text-align: center;
-    font-weight: 700;
 }
 
 .portfolio .image.web,
@@ -202,10 +228,35 @@ body {
     background-color: #fff5c9;
 }
 
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1165px) {
     .portfolio .card {
         width: 50%;
+    }
+
+    .portfolio .image.web,
+    .portfolio .image.book {
+        background-color: #fecc00;
+    }
+
+    .portfolio .image.eye,
+    .portfolio .image.dice {
+        background-color: #fff5c9;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .portfolio .card {
+        width: 100%;
+    }
+
+    .portfolio .image.web,
+    .portfolio .image.dice {
+        background-color: #fecc00;
+    }
+
+    .portfolio .image.eye,
+    .portfolio .image.book {
+        background-color: #fff5c9;
     }
 
     .portfolio .card .content {
@@ -213,14 +264,8 @@ body {
     }
 }
 
-@media screen and (max-width: 480px) {
-    .portfolio .card {
-        width: 100%;
-    }
-}
-
 .personal {
-    margin: 20px 0;
+    margin: 20px;
 }
 
 .photo {
@@ -396,8 +441,8 @@ body {
 }
 
 .answer-2 {
-    position: relative;
-    color: #fafafa;
+    position: absolute;
+    color: transparent;
 }
 
 .answer-2:hover {
@@ -429,8 +474,4 @@ body {
 
 .show {
     display: flex;
-}
-
-.font-dark {
-    color: #341401;
 }

@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const welcome = document.getElementById('welcome');
 
     // start section 1 animation
-    hello.classList.add('typewriter-animation');
+    hello.firstElementChild.classList.add('animate');
     // on section 1 animation end
     section1.addEventListener('animationend', () => {
         setTimeout(() => {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
             section2.classList.remove('hide');
             section2.classList.add('show');
             section2.scrollIntoView({ behavior: 'smooth' });
-            welcome.classList.add('typewriter-animation');
+            welcome.firstElementChild.classList.add('animate');
 
             // on section 2 animation end
             section2.addEventListener('animationend', () => {
@@ -67,16 +67,19 @@ document.addEventListener('DOMContentLoaded', function () {
         height: '100%',
         rotateY: (i) => rots[i].ry,
         rotateX: (i) => rots[i].rx,
-        transformOrigin: "50% 50% -150px",
-        z: 150,
-        background: (i) => 'url(https://assets.codepen.io/721952/dieSprite.svg) 0px -' + String(i * 300) + 'px'
+        transformOrigin: "50% 50% -80px",
+        z: 80,
+        backgroundSize: '100% 600%', 
+        backgroundImage: 'url(https://assets.codepen.io/721952/dieSprite.svg)',
+        backgroundPositionX: '0px',
+        backgroundPositionY:  (i) => '-' + String(i * 160) + 'px'
     });
 
     let die2 = document.querySelector('.die').cloneNode(true);
     document.querySelector('.tray').append(die2);
 
-    gsap.set('.die', { attr: { class: (i) => 'die die' + (i + 1) }, width: 300, height: 300, perspective: 999 });
-    gsap.set('.cube', { position: 'absolute', width: 300, height: 300, transformStyle: 'preserve-3d', z: -600 });
+    gsap.set('.die', { attr: { class: (i) => 'die die' + (i + 1) }, width: 160, height: 160, perspective: 999 });
+    gsap.set('.cube', { position: 'absolute', width: 160, height: 160, transformStyle: 'preserve-3d', z: -600 });
 
     function roll() {
         val[0] = gsap.utils.random(1, 6, 1)
@@ -94,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 z: -600
             }, {
                 duration: 0.75,
-                z: -300,
+                z: -160,
                 ease: 'expo',
                 yoyoEase: 'bounce.out(5)',
                 repeat: 1
