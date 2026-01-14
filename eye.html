@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>brightdullme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <script src="./assets/scripts/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+    <link rel="icon" type="image/png" href="./assets/favicon.ico">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const radius = document.querySelector(".ball").getBoundingClientRect().width / 2;
+
+            const listener = document.querySelector("body");
+            listener.addEventListener("mousemove", (e) => {
+                var posX = e.pageX; // pointer's horizontal position relative to page
+                var posY = e.pageY; // pointer's vertical position relative to page
+                var deltaX = posX - centerX; // pointer's horizontal position relative to center
+                var deltaY = posY - centerY; // pointer's vertical position relative to center
+                var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                if (distance > radius) {
+                    var theta_in_rad = Math.atan2(deltaY, deltaX);
+                    var borderX = radius * Math.cos(theta_in_rad);
+                    var borderY = radius * Math.sin(theta_in_rad);
+
+                    // Reposition iris to the boundary of the circle
+                    gsap.to(".iris", {
+                        x: borderX + "px",
+                        y: borderY + "px",
+                        ease: "expo.out",
+                        duration: 1,
+                        delay: .1,
+                    });
+                }
+                else {
+                    gsap.to(".iris", {
+                        x: deltaX + "px",
+                        y: deltaY + "px",
+                        ease: "expo.out",
+                        duration: 1,
+                        delay: .1,
+                    });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .ball {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            border-radius: 50%;
+            position: relative;
+            background: radial-gradient(circle at 50% 40%, #fcfcfc, #efeff1 66%, #9b5050 100%);
+        }
+
+        .ball:after {
+            content: "";
+            position: absolute;
+            top: 5%;
+            left: 10%;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%);
+            transform: translateX(-80px) translateY(-90px) skewX(-20deg);
+        }
+
+        .iris {
+            width: 40%;
+            height: 40%;
+            margin: 30%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, #208ab4 0%, #6fbfff 30%, #4381b2 100%);
+            position: absolute;
+        }
+
+        .iris.animate {
+            animation: move-eye-skew 5s ease-out infinite;
+        }
+
+        .iris:before {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 37.5%;
+            height: 37.5%;
+            border-radius: 50%;
+            top: 31.25%;
+            left: 31.25%;
+            background: black;
+        }
+
+        .iris:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 31.25%;
+            height: 31.25%;
+            border-radius: 50%;
+            top: 18.75%;
+            left: 18.75%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .ball .shadow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0) 50%);
+            transform: rotateX(90deg) translateZ(-150px);
+            z-index: -1;
+        }
+
+        .stage {
+            width: 300px;
+            height: 300px;
+            display: inline-block;
+            margin: 20px;
+            perspective: 1200px;
+            perspective-origin: 50% 50%;
+            transform-style: preserve-3d;
+            transform: rotateY(0.01deg);
+            border: 1px solid black;
+        }
+
+        @keyframes move-eye-skew {
+            0% {
+                transform: none;
+            }
+
+            20% {
+                transform: translateX(-68px) translateY(30px) skewX(15deg) skewY(-10deg) scale(0.95);
+            }
+
+            25%,
+            30% {
+                transform: none;
+            }
+
+            44% {
+                transform: translateX(-30px) translateY(68px) skewX(5deg) skewY(2deg) scale(0.95);
+            }
+
+            50% {
+                transform: none;
+            }
+
+            60% {
+                transform: translateX(68px) translateY(-40px) skewX(5deg) skewY(2deg) scaleX(0.95);
+            }
+
+            66%,
+            100% {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="image eye">
+        <div class="stage">
+            <div class="ball">
+                <span class="shadow"></span>
+                <span class="iris"></span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
